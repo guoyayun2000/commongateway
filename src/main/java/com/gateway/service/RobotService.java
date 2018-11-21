@@ -26,7 +26,7 @@ public class RobotService implements ProcessInterface{
 		}
 		
 		IMMessage im = SendMessageUtil.getInstance().createMessage(message.getToUserName(), message.getFromUserName(), result, IMConstants.MSG_TYPE_TEXT);
-		SendMessageUtil.getInstance().sendMessage(userKey, im);
+		SendMessageUtil.getInstance().sendMessage(userKey, im, IMConstants.DIRECTION_SEAT_USER);
 		return isNext;
 	}
 	

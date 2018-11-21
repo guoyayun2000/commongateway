@@ -30,6 +30,10 @@ public class Seat {
 	 * 服务会话信息
 	 */
 	private List<String> sessions = new ArrayList<String>();
+	/*
+	 * 预服务会话队列
+	 */
+	private List<String> preSessions = new ArrayList<String>();
 
 	public String getSeatId() {
 		return seatId;
@@ -69,6 +73,10 @@ public class Seat {
 
 	public void setSessions(List<String> sessions) {
 		this.sessions = sessions;
+	}
+
+	public List<String> getPreSessions() {
+		return preSessions;
 	}
 
 }

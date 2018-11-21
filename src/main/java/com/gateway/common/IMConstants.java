@@ -33,6 +33,23 @@ public class IMConstants {
 	 * 链接消息
 	 */
 	public static final String MSG_TYPE_LINK = "link";
+	/**
+	 * 客户接入消息
+	 */
+	public static final String MSG_TYPE_NOTICE_IN = "allocation";
+	/**
+	 * 挂机消息
+	 */
+	public static final String MSG_TYPE_NOTICE_EXIT = "exit";
+	
+	/**
+	 * 信息方向:用户到坐席
+	 */
+	public static final int DIRECTION_USER_SEAT = 0;
+	/**
+	 * 信息方向:坐席到用户
+	 */
+	public static final int DIRECTION_SEAT_USER = 1;
 	
 	/**
 	 * 初始状态

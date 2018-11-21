@@ -1,5 +1,6 @@
 package com.gateway.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,15 @@ public class User {
 	 * 业务处理实例
 	 */
 	private Map<String, ProcessInterface> processServices = new HashMap<String, ProcessInterface>();
-
+	/*
+	 * 最近活动时间
+	 */
+	private long lastActiveTime = 0;
+	/*
+	 * 已经试图分配过的坐席(分配过的坐席)
+	 */
+	private List<String> alreadyAllocation = new ArrayList<String>();
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -110,4 +119,17 @@ public class User {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+
+	public long getLastActiveTime() {
+		return lastActiveTime;
+	}
+
+	public void setLastActiveTime(long lastActiveTime) {
+		this.lastActiveTime = lastActiveTime;
+	}
+
+	public List<String> getAlreadyAllocation() {
+		return alreadyAllocation;
+	}
+	
 }

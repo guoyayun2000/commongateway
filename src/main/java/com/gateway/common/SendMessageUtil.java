@@ -26,10 +26,23 @@ public class SendMessageUtil {
 		return smu;
 	}
 	
-	public void sendMessage(String userKey, IMMessage im) {
-		service.execute(new WSMessageHandler(userKey, im));
+	/**
+	 * 根据userKey通过websocket发送信息
+	 * @param userKey userKey
+	 * @param im 需要通过websocket发送的信息
+	 */
+	public void sendMessage(String userKey, IMMessage im, int direction) {
+		service.execute(new WSMessageHandler(userKey, im, direction));
 	}
 	
+	/**
+	 * 创建websocket需要的信息发送实体类
+	 * @param fromUserName
+	 * @param toUserName
+	 * @param content
+	 * @param msgType
+	 * @return
+	 */
 	public synchronized IMMessage createMessage(String fromUserName, String toUserName, String content, String msgType){
 		IMMessage im = new IMMessage();
 		im.setFromUserName(fromUserName);
@@ -39,4 +52,22 @@ public class SendMessageUtil {
 		im.setCreateTime((int)(System.currentTimeMillis() / 1000));
 		return im;
 	}
+	
+	/**
+	 * 综合了{@link SendMessageUtil#createMessage}方法和{@link SendMessageUtil#sendMessage}方法
+	 * @param fromUserName
+	 * @param toUserName
+	 * @param content
+	 * @param msgType
+	 * @param userKey
+	 * @param direction 信息方向:0用户到坐席 1坐席到用户
+	 * @return
+	 */
+	public synchronized IMMessage createAndSendMessage(String fromUserName, String toUserName, String content, String msgType, String userKey, int direction){
+		IMMessage im = createMessage(fromUserName, toUserName, content, msgType);
+		sendMessage(userKey, im, direction);
+		return im;
+	}
+	
+	
 }
