@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.gateway.common.IMConstants;
 import com.gateway.common.IMQueue;
+import com.gateway.common.SeatMemoryCache;
 import com.gateway.common.SendMessageUtil;
 import com.gateway.common.UserMemoryCache;
 import com.gateway.model.IMMessage;
@@ -29,11 +30,11 @@ public class OnlineService implements ProcessInterface{
 		switch (status) {
 		case IMConstants.USER_STATUS_WAIT_ALLOCATION:
 			// TODO: 发送提示
-			sendMessage(fromUserName, toUserName, "排队中", userKey);
+			SendMessageUtil.getInstance().createAndSendToUser(fromUserName, toUserName, "排队中", IMConstants.MSG_TYPE_TEXT, userKey);
 			break;
 		case IMConstants.USER_STATUS_WAIT_ACCESS:
 			// TODO: 发送提示
-			sendMessage(fromUserName, toUserName, "等待接入", userKey);
+			SendMessageUtil.getInstance().createAndSendToUser(fromUserName, toUserName, "等待接入", IMConstants.MSG_TYPE_TEXT, userKey);
 			break;
 		case IMConstants.USER_STATUS_ONLINE:
 			// TODO: 发送消息到坐席
@@ -43,19 +44,14 @@ public class OnlineService implements ProcessInterface{
 				result = "您已经主动退出人工";
 			} else {
 				result = "已经收到您的信息[" + message.getContent() + "]";
-				List<User> list = UserMemoryCache.getInstance().getUsers();
-				for (User u : list) {
-					String tempKey = u.getUserId() + "," + u.getChannel();
-					if (!tempKey.equals(userKey)) {
-						toUserName = u.getUserId();
-						fromUserName = message.getFromUserName();
-						userKey = tempKey;
-						result = message.getContent();
-						break;
-					}
-				}
+				fromUserName = message.getFromUserName();
+				List<String> seats = SeatMemoryCache.getInstance().getSeatIdBySessionId(user.getSessionId());
+				toUserName = seats.get(0);
+				result = message.getContent();
+				userKey = seats.get(0);
+				SendMessageUtil.getInstance().createAndSendToSeat(fromUserName, toUserName, result, message.getMsgType(), user.getChannel(), user.getSessionId(), IMConstants.CODE_CHAT, userKey);
 			}
-			sendMessage(fromUserName, toUserName, result, userKey);
+			
 			break;
 		default:
 			// TODO: 加入排队队列
@@ -67,9 +63,4 @@ public class OnlineService implements ProcessInterface{
 		return isNext;
 	}
 
-	private void sendMessage(String fromUserName, String toUserName, String content, String userKey) {
-		IMMessage im = SendMessageUtil.getInstance().createMessage(fromUserName, toUserName, content, IMConstants.MSG_TYPE_TEXT);
-		SendMessageUtil.getInstance().sendMessage(userKey, im, IMConstants.DIRECTION_SEAT_USER);
-	}
-	
 }

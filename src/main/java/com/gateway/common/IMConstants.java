@@ -33,14 +33,6 @@ public class IMConstants {
 	 * 链接消息
 	 */
 	public static final String MSG_TYPE_LINK = "link";
-	/**
-	 * 客户接入消息
-	 */
-	public static final String MSG_TYPE_NOTICE_IN = "allocation";
-	/**
-	 * 挂机消息
-	 */
-	public static final String MSG_TYPE_NOTICE_EXIT = "exit";
 	
 	/**
 	 * 信息方向:用户到坐席
@@ -71,4 +63,25 @@ public class IMConstants {
 	 * 转人工-接入状态
 	 */
 	public static final int USER_STATUS_ONLINE = 4;
+	
+	/**
+	 * 指令-转人工
+	 */
+	public static final int CODE_ALLOCATION = 100;
+	/**
+	 * 指令-坐席接入
+	 */
+	public static final int CODE_ACCEPT = 101;
+	/**
+	 * 指令-聊天
+	 */
+	public static final int CODE_CHAT = 102;
+	/**
+	 * 指令-客户挂机
+	 */
+	public static final int CODE_HANG_UP_BY_USER = 103;
+	/**
+	 * 指令-坐席挂机
+	 */
+	public static final int CODE_HANG_UP_BY_SEAT = 104;
 }

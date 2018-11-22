@@ -73,6 +73,7 @@ public class UserWebSocketHandler extends TextWebSocketHandler {
 				}
 			}
 			user.setProcessStep(steps);
+			user.setLastActiveTime(System.currentTimeMillis());
 			UserMemoryCache.getInstance().putUser(userKey, user);
 		}
 		
@@ -110,6 +111,8 @@ public class UserWebSocketHandler extends TextWebSocketHandler {
 					pif = (ProcessInterface) Class.forName(wcpu.getProperty(processStep)).newInstance();
 					UserMemoryCache.getInstance().getUser(userKey).getProcessServices().put(processStep, pif);
 				}
+				
+				UserMemoryCache.getInstance().getUser(userKey).setLastActiveTime(System.currentTimeMillis());
 				boolean flag = pif.service(userKey, imm);
 				if (flag) {
 					step = step + 1;

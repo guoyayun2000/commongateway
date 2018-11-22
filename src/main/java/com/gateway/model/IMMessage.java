@@ -1,4 +1,5 @@
 package com.gateway.model;
+
 /**
  * 消息实体类
  * @author guosen

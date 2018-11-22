@@ -35,11 +35,13 @@ public class Allocation {
 			 * 3、将客户的状态改为等待接入状态
 			 * 4、发送接入提示给坐席
 			 */
-			SeatMemoryCache.getInstance().getSeat(seatId).getPreSessions().add(userKey);
-			UserMemoryCache.getInstance().getUser(userKey).setLastActiveTime(System.currentTimeMillis());
+			long current = System.currentTimeMillis();
+			SeatMemoryCache.getInstance().getSeat(seatId).getPreSessions().put(userKey, current);
+			UserMemoryCache.getInstance().getUser(userKey).setLastActiveTime(current);
 			UserMemoryCache.getInstance().getUser(userKey).setStatus(IMConstants.USER_STATUS_WAIT_ACCESS);
 			
-			SendMessageUtil.getInstance().createAndSendMessage(user.getUserId(), seatId, "接入", IMConstants.MSG_TYPE_NOTICE_IN, seatId, IMConstants.DIRECTION_USER_SEAT);
+			SendMessageUtil smu = SendMessageUtil.getInstance();
+			smu.createAndSendToSeat(user.getUserId(), seatId, "接入", IMConstants.MSG_TYPE_TEXT, user.getChannel(), user.getSessionId(), IMConstants.CODE_ALLOCATION, userKey);
 			flag = true;
 		}
 		return flag;

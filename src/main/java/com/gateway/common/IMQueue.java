@@ -19,6 +19,18 @@ public class IMQueue {
 	}
 	
 	/**
+	 * 从排队队列中删除
+	 * @param userKey
+	 */
+	public static void removeFromQueue(String userKey) {
+		try {
+			WAIT_QUEUE.remove(userKey);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Retrieves and removes the head of this queue, waiting if necessary until an element becomes available.
 	 * @return the head of this queue
 	 */

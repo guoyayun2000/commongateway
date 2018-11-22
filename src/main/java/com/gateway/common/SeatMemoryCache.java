@@ -17,6 +17,8 @@ public class SeatMemoryCache {
 	private final ConcurrentHashMap<String, WebSocketSession> sessionMap = new ConcurrentHashMap<>();
 	// 坐席信息缓存
 	private final ConcurrentHashMap<String, Seat> seatMap = new ConcurrentHashMap<>();
+	// 会话key和坐席ID缓存
+	private final ConcurrentHashMap<String, List<String>> sessionKeyMap = new ConcurrentHashMap<>();
 	
 	public static SeatMemoryCache getInstance() {
 		return memoryCache;
@@ -140,5 +142,63 @@ public class SeatMemoryCache {
 			return null;
 		}
 		return seatMap.remove(key);
+	}
+	
+	/**
+	 * 存放会话ID和坐席ID的映射关系
+	 * @param sessionId
+	 * @param seatId
+	 */
+	public void putSessionKey(String sessionId, String seatId) {
+		List<String> list = sessionKeyMap.get(sessionId);
+		if (list == null) {
+			list = new ArrayList<String>();
+		}
+		list.add(seatId);
+		sessionKeyMap.put(sessionId, list);
+	}
+	
+	/**
+	 * 根据会话ID获取对应的坐席ID
+	 * @param sessionId
+	 * @return 坐席编号集合
+	 */
+	public List<String> getSeatIdBySessionId(String sessionId) {
+		return sessionKeyMap.get(sessionId);
+	}
+	
+	/**
+	 * 根据会话ID清除和坐席ID的映射
+	 * @param sessionId
+	 */
+	public void removeSessionKey(String sessionId) {
+		sessionKeyMap.remove(sessionId);
+	}
+	
+	/**
+	 * 根据会话ID和坐席ID清除映射
+	 * @param sessionId
+	 * @param seatId
+	 */
+	public void removeSessionKey(String sessionId, String seatId) {
+		List<String> list = sessionKeyMap.get(sessionId);
+		if (list == null) {
+			return;
+		}
+		if (list.size() > 1) {
+			int index = -1;
+			for (int i = 0; i < list.size(); i++) {
+				if (list.get(i).equals(seatId)) {
+					index = i;
+					break;
+				}
+			}
+			if (index > -1) {
+				list.remove(index);
+			}
+			sessionKeyMap.put(sessionId, list);
+		} else {
+			sessionKeyMap.remove(sessionId);
+		}
 	}
 }

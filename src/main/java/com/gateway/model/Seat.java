@@ -1,7 +1,7 @@
 package com.gateway.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 坐席信息
@@ -29,11 +29,11 @@ public class Seat {
 	/*
 	 * 服务会话信息
 	 */
-	private List<String> sessions = new ArrayList<String>();
+	private Map<String, Long> sessions = new HashMap<String, Long>();
 	/*
-	 * 预服务会话队列
+	 * 预服务会话队列(userKey-time)
 	 */
-	private List<String> preSessions = new ArrayList<String>();
+	private Map<String, Long> preSessions = new HashMap<String, Long>();
 
 	public String getSeatId() {
 		return seatId;
@@ -67,15 +67,15 @@ public class Seat {
 		this.serviceLength = serviceLength;
 	}
 
-	public List<String> getSessions() {
+	public Map<String, Long> getSessions() {
 		return sessions;
 	}
 
-	public void setSessions(List<String> sessions) {
+	public void setSessions(Map<String, Long> sessions) {
 		this.sessions = sessions;
 	}
 
-	public List<String> getPreSessions() {
+	public Map<String, Long> getPreSessions() {
 		return preSessions;
 	}
 
