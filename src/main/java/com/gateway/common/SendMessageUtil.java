@@ -42,6 +42,9 @@ public class SendMessageUtil {
 		try {
 			String pyload = om.writeValueAsString(im);
 			service.execute(new WSMessageHandler(userKey, pyload, direction));
+			if (IMConstants.DIRECTION_SEAT_USER == direction) {
+				UserMemoryCache.getInstance().getUser(userKey).setLastActiveTime(System.currentTimeMillis());
+			}
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
@@ -90,6 +93,7 @@ public class SendMessageUtil {
 	 * @param userKey
 	 * @param channel
 	 * @param sessionId
+	 * @param code
 	 * @return
 	 */
 	public synchronized SeatMessage<IMMessage> createAndSendToSeat(String fromUserName, String toUserName, String content, String msgType, String channel, String sessionId, int code, String userKey){

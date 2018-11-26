@@ -3,6 +3,7 @@ package com.gateway.common;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -142,6 +143,23 @@ public class SeatMemoryCache {
 			return null;
 		}
 		return seatMap.remove(key);
+	}
+	
+	/**
+	 * 根据坐席编号和会话ID将会话从坐席服务队列中移除
+	 * @param seatKey
+	 * @param sessionId
+	 */
+	public void removeUserFromSeat(String seatKey, String sessionId) {
+		try {
+			Seat seat = seatMap.get(seatKey);
+			Map<String, Long> map = seat.getSessions();
+			if (map.containsKey(sessionId)) {
+				seatMap.get(seatKey).getSessions().remove(sessionId);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

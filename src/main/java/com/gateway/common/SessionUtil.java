@@ -48,7 +48,25 @@ public class SessionUtil {
 	}
 	
 	private static void resetUser(String userKey) {
+		UserMemoryCache.getInstance().getUser(userKey).setLastActiveTime(System.currentTimeMillis());
 		UserMemoryCache.getInstance().getUser(userKey).setStatus(IMConstants.USER_STATUS_INIT);
+	}
+	
+	/**
+	 * 坐席接入
+	 * @param seatId
+	 * @param userKey
+	 * @param sessionId
+	 */
+	public static void accept(String seatId, String userKey, String sessionId) {
+		long current = System.currentTimeMillis();
+		User user = UserMemoryCache.getInstance().getUser(userKey);
+		SeatMemoryCache.getInstance().getSeat(seatId).getSessions().put(sessionId, current);
+		SeatMemoryCache.getInstance().putSessionKey(sessionId, seatId);
+		
+		UserMemoryCache.getInstance().getUser(userKey).setStatus(IMConstants.USER_STATUS_ONLINE);
+		UserMemoryCache.getInstance().getUser(userKey).setLastActiveTime(current);
+		SendMessageUtil.getInstance().createAndSendToUser(seatId, user.getUserId(), "坐席接入", IMConstants.MSG_TYPE_TEXT, userKey);
 	}
 	
 	/**

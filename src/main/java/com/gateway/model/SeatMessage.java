@@ -6,10 +6,25 @@ package com.gateway.model;
  * @param <T>
  */
 public class SeatMessage<T> {
+	/**
+	 * 指令码
+	 */
 	private int code;
+	/**
+	 * 客户渠道
+	 */
 	private String channel;
+	/**
+	 * 客户会话ID
+	 */
 	private String sessionId;
+	/**
+	 * 客户名称
+	 */
 	private String userId;
+	/**
+	 * 消息实体
+	 */
 	private T content;
 
 	public int getCode() {

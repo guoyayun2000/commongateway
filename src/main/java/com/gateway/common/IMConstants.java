@@ -5,6 +5,7 @@ package com.gateway.common;
  *
  */
 public class IMConstants {
+	// ******************信息类型定义*******************
 	/**
 	 * 文本消息
 	 */
@@ -34,6 +35,7 @@ public class IMConstants {
 	 */
 	public static final String MSG_TYPE_LINK = "link";
 	
+	// ******************信息发送方向定义*******************
 	/**
 	 * 信息方向:用户到坐席
 	 */
@@ -43,6 +45,17 @@ public class IMConstants {
 	 */
 	public static final int DIRECTION_SEAT_USER = 1;
 	
+	// ******************返回结果定义*******************
+	/**
+	 * 处理结果-成功
+	 */
+	public static final int RESULT_SUCCESS = 0;
+	/**
+	 * 处理结果-异常
+	 */
+	public static final int RESULT_ERROR = 9999;
+	
+	// ******************用户状态定义*******************
 	/**
 	 * 初始状态
 	 */
@@ -64,6 +77,7 @@ public class IMConstants {
 	 */
 	public static final int USER_STATUS_ONLINE = 4;
 	
+	// ********************指令定义**********************
 	/**
 	 * 指令-转人工
 	 */

@@ -12,6 +12,7 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 import com.gateway.common.WSConfigPropertiesUtil;
 import com.gateway.handler.SeatWebSocketHandler;
 import com.gateway.handler.UserWebSocketHandler;
+import com.gateway.service.SeatMessageService;
 
 @Configuration
 @EnableWebSocket
@@ -22,6 +23,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	private UserWebSocketHandler userHander;
 	@Autowired
 	private SeatWebSocketHandler seatHandler;
+	@Autowired
+	private SeatMessageService messageService;
 	
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
@@ -47,6 +50,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	@Bean
 	@Scope("prototype")
 	public SeatWebSocketHandler dealSeatHandler() {
-		return new SeatWebSocketHandler();
+		return new SeatWebSocketHandler(messageService);
 	}
 }
