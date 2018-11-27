@@ -61,6 +61,7 @@ public class SessionUtil {
 	public static void accept(String seatId, String userKey, String sessionId) {
 		long current = System.currentTimeMillis();
 		User user = UserMemoryCache.getInstance().getUser(userKey);
+		SeatMemoryCache.getInstance().getSeat(seatId).getPreSessions().remove(userKey);
 		SeatMemoryCache.getInstance().getSeat(seatId).getSessions().put(sessionId, current);
 		SeatMemoryCache.getInstance().putSessionKey(sessionId, seatId);
 		
