@@ -28,8 +28,8 @@ public class AllocationScheduledTasks {
 	
 	@Scheduled(fixedDelayString = "${jobs.allocation.delay}")
 	public void allocationUser() {
-		logger.info("allocationUser==>" + System.currentTimeMillis());
 		String userKey = IMQueue.takeFromWaitQueue();
+		logger.info("allocationUser==>" + userKey);
 		Allocation all = new Allocation();
 		boolean flag = all.allocationSeat(userKey);
 		if (!flag) {
@@ -52,9 +52,10 @@ public class AllocationScheduledTasks {
 			long interval = current - lastActive;
 			int status = user.getStatus();
 			String userKey = user.getUserId() + "," + user.getChannel();
+			System.out.println("clearUserCache==>" + userKey + "\t" + status + "\t" + lastActive);
 			switch (status) {
 			case IMConstants.USER_STATUS_INIT:
-				if (interval > 300000) {
+				if (interval > 60000) {
 					SessionUtil.userClear(userKey);
 				}
 				break;

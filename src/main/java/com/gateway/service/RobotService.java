@@ -2,6 +2,7 @@ package com.gateway.service;
 
 import com.gateway.common.IMConstants;
 import com.gateway.common.SendMessageUtil;
+import com.gateway.common.SessionUtil;
 import com.gateway.model.IMMessage;
 /**
  * 机器人流程
@@ -16,8 +17,8 @@ public class RobotService implements ProcessInterface{
 		String result = "";
 		
 		if ("99".equals(message.getContent())) {
-			isNext = true;
-			result = "您已经主动退出";
+			isNext = false;
+			SessionUtil.hangUpByUser(userKey, false);
 		} else if ("9".equals(message.getContent())) {
 			isNext = true;
 			result = "转人工";

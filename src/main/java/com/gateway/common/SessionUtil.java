@@ -50,6 +50,7 @@ public class SessionUtil {
 	private static void resetUser(String userKey) {
 		UserMemoryCache.getInstance().getUser(userKey).setLastActiveTime(System.currentTimeMillis());
 		UserMemoryCache.getInstance().getUser(userKey).setStatus(IMConstants.USER_STATUS_INIT);
+		IMQueue.removeFromQueue(userKey);
 	}
 	
 	/**
@@ -75,6 +76,7 @@ public class SessionUtil {
 	 * @param userKey
 	 */
 	public static void userClear(String userKey) {
+		System.out.println("userClear==>" + userKey);
 		User user = UserMemoryCache.getInstance().getUser(userKey);
 		SeatMemoryCache.getInstance().removeSessionKey(user.getSessionId());
 		UserMemoryCache.getInstance().removeUser(userKey);
