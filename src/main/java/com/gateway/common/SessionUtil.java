@@ -19,7 +19,7 @@ public class SessionUtil {
 	 * @param userKey
 	 * @param ifNotify
 	 */
-	public static void hangUpByUser(String userKey, boolean ifNotify) {
+	public static void hangUpByUser(String userKey, String content, boolean ifNotify) {
 		User user = UserMemoryCache.getInstance().getUser(userKey);
 		String toUserName = "system";
 		if (ifNotify) {
@@ -29,7 +29,7 @@ public class SessionUtil {
 				SendMessageUtil.getInstance().createAndSendToSeat(user.getUserId(), toUserName, "超时挂机", IMConstants.MSG_TYPE_TEXT, user.getChannel(), user.getSessionId(), IMConstants.CODE_HANG_UP_BY_USER, toUserName);
 			}
 		}
-		SendMessageUtil.getInstance().createAndSendToUser(toUserName, user.getUserId(), "超时挂机", IMConstants.MSG_TYPE_TEXT, userKey);
+		SendMessageUtil.getInstance().createAndSendToUser(toUserName, user.getUserId(), content, IMConstants.MSG_TYPE_TEXT, userKey);
 		resetUser(userKey);
 	}
 	

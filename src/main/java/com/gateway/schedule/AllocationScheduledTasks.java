@@ -67,13 +67,13 @@ public class AllocationScheduledTasks {
 			case IMConstants.USER_STATUS_WAIT_ALLOCATION:
 				if (interval > 120000) {
 					IMQueue.removeFromQueue(userKey);
-					SessionUtil.hangUpByUser(userKey, false);
+					SessionUtil.hangUpByUser(userKey, "分配超时挂机", false);
 				}
 				break;
 			case IMConstants.USER_STATUS_ONLINE:
 				if (interval > 600000) {
 					IMQueue.removeFromQueue(userKey);
-					SessionUtil.hangUpByUser(userKey, true);
+					SessionUtil.hangUpByUser(userKey, "超过最大聊天时间挂机", true);
 				}
 				break;
 			default:

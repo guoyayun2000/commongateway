@@ -38,7 +38,7 @@ public class OnlineService implements ProcessInterface{
 		if ("99".equals(message.getContent())) {
 			isNext = true;
 			result = "您已经主动退出人工";
-			SessionUtil.hangUpByUser(userKey, false);
+			SessionUtil.hangUpByUser(userKey, result, false);
 			isNext = true;
 			return isNext;
 		}

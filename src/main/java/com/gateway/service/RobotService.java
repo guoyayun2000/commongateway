@@ -26,7 +26,7 @@ public class RobotService implements ProcessInterface{
 		String content = message.getContent();
 		if ("99".equals(content)) {
 			isNext = false;
-			SessionUtil.hangUpByUser(userKey, false);
+			SessionUtil.hangUpByUser(userKey, "您已经主动退出机器人", false);
 		} else if ("9".equals(content)) {
 			isNext = true;
 			result = "转人工";
