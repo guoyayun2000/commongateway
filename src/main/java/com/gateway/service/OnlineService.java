@@ -2,6 +2,9 @@ package com.gateway.service;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
 import com.gateway.common.IMConstants;
 import com.gateway.common.IMQueue;
 import com.gateway.common.SeatMemoryCache;
@@ -15,6 +18,8 @@ import com.gateway.model.User;
  * @author guosen
  *
  */
+@Service
+@Scope("prototype")
 public class OnlineService implements ProcessInterface{
 
 	@Override
@@ -49,7 +54,6 @@ public class OnlineService implements ProcessInterface{
 			break;
 		case IMConstants.USER_STATUS_ONLINE:
 			// TODO: 发送消息到坐席
-			result = "已经收到您的信息[" + message.getContent() + "]";
 			fromUserName = message.getFromUserName();
 			List<String> seats = SeatMemoryCache.getInstance().getSeatIdBySessionId(user.getSessionId());
 			toUserName = seats.get(0);

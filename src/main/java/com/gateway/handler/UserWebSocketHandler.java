@@ -11,6 +11,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gateway.common.ApplicationContextHelper;
 import com.gateway.common.UserMemoryCache;
 import com.gateway.common.WSConfigPropertiesUtil;
 import com.gateway.model.IMMessage;
@@ -108,7 +109,8 @@ public class UserWebSocketHandler extends TextWebSocketHandler {
 				ProcessInterface pif = user.getProcessServices().get(processStep);
 				if (pif == null) {
 					// 根据流程名称获取流程类,用反射创建流程对象
-					pif = (ProcessInterface) Class.forName(wcpu.getProperty(processStep)).newInstance();
+//					pif = getProcessByReflect(processStep);
+					pif = getProcessByContext(processStep);
 					UserMemoryCache.getInstance().getUser(userKey).getProcessServices().put(processStep, pif);
 				}
 				
@@ -127,6 +129,14 @@ public class UserWebSocketHandler extends TextWebSocketHandler {
 		}
 	}
 
+	public ProcessInterface getProcessByReflect(String processStep) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		return (ProcessInterface) Class.forName(wcpu.getProperty(processStep)).newInstance();
+	}
+	
+	public ProcessInterface getProcessByContext(String processStep) {
+		return (ProcessInterface) ApplicationContextHelper.getBean(processStep);
+	}
+	
 	@Override
 	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
 		exception.printStackTrace();
