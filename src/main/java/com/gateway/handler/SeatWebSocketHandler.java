@@ -1,5 +1,8 @@
 package com.gateway.handler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -9,9 +12,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gateway.common.IMConstants;
+import com.gateway.common.SeatMemoryCache;
 import com.gateway.common.SendMessageUtil;
 import com.gateway.model.IMMessage;
 import com.gateway.model.IMResult;
+import com.gateway.model.Seat;
 import com.gateway.model.SeatMessage;
 import com.gateway.service.SeatMessageService;
 /**
@@ -29,7 +34,25 @@ public class SeatWebSocketHandler extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		super.afterConnectionEstablished(session);
+		String query = session.getUri().getQuery();
+		Map<String, String> params = new HashMap<String, String>();
+		if (query != null && !"".equals(query.trim())) {
+			query = query.trim();
+			String[] queryParams = query.split("&");
+			for (String param : queryParams) {
+				String[] qp = param.split("=");
+				params.put(qp[0], qp[1]);
+			}
+		}
+		if (!params.containsKey("seatId") || params.get("seatId") == null) {
+			session.close();
+			return;
+		}
+		Seat seat = new Seat();
+		seat.setSeatId(params.get("seatId"));
+		seat.setSeatStatus(IMConstants.SEAT_STATUS_CHECKIN);
+		SeatMemoryCache.getInstance().putSeat(params.get("seatId"), seat);
+		SeatMemoryCache.getInstance().putWebSocketSession(params.get("seatId"), session);
 	}
 
 	@Override

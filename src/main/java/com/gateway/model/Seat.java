@@ -21,7 +21,7 @@ public class Seat {
 	/*
 	 * 坐席状态
 	 */
-	private String seatStatus;
+	private int seatStatus;
 	/*
 	 * 可以服务的人数
 	 */
@@ -51,11 +51,11 @@ public class Seat {
 		this.seatName = seatName;
 	}
 
-	public String getSeatStatus() {
+	public int getSeatStatus() {
 		return seatStatus;
 	}
 
-	public void setSeatStatus(String seatStatus) {
+	public void setSeatStatus(int seatStatus) {
 		this.seatStatus = seatStatus;
 	}
 

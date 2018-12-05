@@ -77,6 +77,24 @@ public class IMConstants {
 	 */
 	public static final int USER_STATUS_ONLINE = 4;
 	
+	// ********************坐席状态定义**********************
+	/**
+	 * 签入
+	 */
+	public static final int SEAT_STATUS_CHECKIN = 1;
+	/**
+	 * 签出
+	 */
+	public static final int SEAT_STATUS_CHECKOUT = 2;
+	/**
+	 * 忙碌
+	 */
+	public static final int SEAT_STATUS_BUSY = 3;
+	/**
+	 * 空闲
+	 */
+	public static final int SEAT_STATUS_FREE = 4;
+	
 	// ********************指令定义**********************
 	/**
 	 * 指令-转人工
