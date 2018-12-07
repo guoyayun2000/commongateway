@@ -3,6 +3,7 @@ package com.gateway.handler;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -25,6 +26,7 @@ import com.gateway.service.SeatMessageService;
  *
  */
 public class SeatWebSocketHandler extends TextWebSocketHandler {
+	@Autowired
 	private SeatMessageService messageService;
 	private ObjectMapper om = new ObjectMapper().setSerializationInclusion(Include.NON_NULL);
 	
@@ -58,6 +60,7 @@ public class SeatWebSocketHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		String payload = message.getPayload();
+		System.out.println("收到坐席消息==>" + payload);
 		SeatMessage<IMMessage> msg = om.readValue(payload, new TypeReference<SeatMessage<IMMessage>>() {});
 		IMResult result = messageService.process(msg);
 		

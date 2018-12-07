@@ -112,6 +112,6 @@ public class AllocationScheduledTasks {
 	
 	@Scheduled(cron = "${jobs.cron}")
 	public void test() {
-		logger.info("test==>" + System.currentTimeMillis());
+		System.out.println("test==>" + System.currentTimeMillis());
 	}
 }

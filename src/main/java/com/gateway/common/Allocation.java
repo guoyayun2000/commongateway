@@ -41,7 +41,7 @@ public class Allocation {
 			UserMemoryCache.getInstance().getUser(userKey).setStatus(IMConstants.USER_STATUS_WAIT_ACCESS);
 			
 			SendMessageUtil smu = SendMessageUtil.getInstance();
-			smu.createAndSendToSeat(user.getUserId(), seatId, "接入", IMConstants.MSG_TYPE_TEXT, user.getChannel(), user.getSessionId(), IMConstants.CODE_ALLOCATION, userKey);
+			smu.createAndSendToSeat(user.getUserId(), seatId, "客户接入", IMConstants.MSG_TYPE_TEXT, user.getChannel(), user.getSessionId(), IMConstants.CODE_ALLOCATION, seatId);
 			flag = true;
 		}
 		return flag;

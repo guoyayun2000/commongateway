@@ -41,6 +41,7 @@ public class SendMessageUtil {
 	public void sendMessage(String userKey, Object im, int direction) {
 		try {
 			String pyload = om.writeValueAsString(im);
+			System.out.println("send==>" + pyload);
 			service.execute(new WSMessageHandler(userKey, pyload, direction));
 			if (IMConstants.DIRECTION_SEAT_USER == direction) {
 				UserMemoryCache.getInstance().getUser(userKey).setLastActiveTime(System.currentTimeMillis());
